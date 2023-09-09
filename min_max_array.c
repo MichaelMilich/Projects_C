@@ -48,6 +48,7 @@ int findMax(int array[], int len)
         {
             max = array[index];
         }
+        // second change
         index++;
     }
     return max;
