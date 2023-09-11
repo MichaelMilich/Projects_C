@@ -97,7 +97,7 @@ int main(void)
     printf("the minimum of a[] is %d, maximum is %d \n", findMin(a, LEN(a)), findMax(a, LEN(a)));
     printf("the minimum of b[] is %d, maximum is %d \n", findMin(b, LEN(b)), findMax(b, LEN(b)));
     printf("the minimum of c[] is %d, maximum is %d \n", findMin(c, LEN(c)), findMax(c, LEN(c)));
-    int d[][2] = {{10, -2}, {-4, 100}};
+    int d[][2] = {{10, -2}, {-4, 100}, {1, 2}, {33, -33}};
     int e[][2][3] = {
         {{1, 2, 3},
          {5, -10, 20}},
@@ -107,7 +107,9 @@ int main(void)
     int d_sizes[] = {LEN(d), LEN(d[0])};
     int e_sizes[] = {LEN(e), LEN(e[0]), LEN(e[0][0])};
 
-    printf("the minimum of d[] is %d, maximum is %d \n", find_min_n_dimention(b, d_sizes, 2), find_max_n_dimention(b, d_sizes, 2));
-    printf("the minimum of e[] is %d, maximum is %d \n", find_min_n_dimention(c, e_sizes, 3), find_max_n_dimention(c, e_sizes, 3));
+    printf("the minimum of d[] is %d, maximum is %d \n", find_min_n_dimention(d, d_sizes, 2), find_max_n_dimention(d, d_sizes, 2));
+    printf("the minimum of e[] is %d, maximum is %d \n", find_min_n_dimention(e, e_sizes, 3), find_max_n_dimention(e, e_sizes, 3));
+    printf("size of d = %d, size of d[0] is %d \n", LEN(d), LEN(d[0]));
+    printf("size of e = %d, size of e[0] is %d, size of e[0][0] %d \n", LEN(e), LEN(e[0]), LEN(e[0][0]));
     return 0;
 }
