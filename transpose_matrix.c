@@ -21,6 +21,7 @@ void print_matrix(int sizes_0, int sizes_1, int matrix[sizes_0][sizes_1])
         for (int j = 0; j < sizes_1; ++j)
         {
             printf("%d ", matrix[i][j]);
+            //check
         }
         printf("\n");
     }
