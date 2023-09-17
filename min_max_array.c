@@ -1,5 +1,4 @@
 #include <string.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -124,6 +123,7 @@ int first_larger_second_char(void *first, void *second)
 void *find_generic_min_n_dinen(void *array, int array_sizes[], int n, size_t type_size, int (*is_larger_func)(void *, void *))
 {
     int size = find_n_dimen_size(array_sizes, n);
+    printf("the %d dimention array size in 1D is %d \n", n, size);
     void *min = find_generic_min(array, size, type_size, is_larger_func);
     return min;
 }
@@ -151,13 +151,21 @@ int main(void)
     printf("size of d = %d, size of d[0] is %d \n", LEN(d), LEN(d[0]));
     printf("size of e = %d, size of e[0] is %d, size of e[0][0] %d \n", LEN(e), LEN(e[0]), LEN(e[0][0]));
 
-    char chars[] = {'H', 'M', 'z', 'a'};
-    char chars2[][5] = {{'H', 'L', "l", 'o', 'Z'}, {'a', 'Z', 'z', 'A', '['}};
-    int char_sizes[] = {LEN(chars2), LEN(chars2[0])};
-    int dimen = LEN(char_sizes);
+    // char chars2[][5] = {{'H', 'L', "l", 'o', 'Z'}, {'a', 'Z', 'z', 'A', '['}};
+    // int char_sizes[] = {LEN(chars2), LEN(chars2[0])};
+    // int dimen = LEN(char_sizes);
+    // int (*char_compare_func)(void *, void *) = first_larger_second_char;
+    // void *void_min = find_generic_min_n_dinen(chars2, char_sizes, dimen, sizeof(char), char_compare_func);
+    // char *char_min = (char *)void_min;
+    // printf("The minimum of chars2[][] is %c \n", *char_min);
+
     int (*char_compare_func)(void *, void *) = first_larger_second_char;
-    void *void_min = find_generic_min_n_dinen(chars2, char_sizes, dimen, sizeof(char), char_compare_func);
+    char strings[][5][3] = {{{'h', 'e', 'l'}, {'l', 'o', '@'}, {'#', '!', 'y'}, {'n', 'a', 'm'}, {'e', '$', 'i'}}, {{'s', '%', 'M'}, {'i', 's', 'h'}, {'a', '^', 'h'}, {'Z', '6', '7'}, {'3', '3', '3'}}};
+    int strings_sizes[] = {LEN(strings), LEN(strings[0]), LEN(strings[0][0])};
+    int dimen = LEN(strings_sizes);
+    printf("size of strings = %d, size of strings[0] is %d , size of strings[0][0] is %d \n", LEN(strings), LEN(strings[0]), LEN(strings[0][0]));
+    void *void_min = find_generic_min_n_dinen(strings, strings_sizes, dimen, sizeof(char), char_compare_func);
     char *char_min = (char *)void_min;
-    printf("The minimum of chars2[][] is %c", *char_min);
+    printf("The minimum of strings[][][] is %c", *char_min);
     return 0;
 }
