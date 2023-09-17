@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -11,6 +12,9 @@ int findMax(int array[], int len);
 int find_max_n_dimention(int array_n[], int array_sizes[], int n);
 int find_min_n_dimention(int array_n[], int array_sizes[], int n);
 int find_n_dimen_size(int array_sizes[], int n);
+void *find_generic_min(void *array, int len, size_t type_size, int (*is_larger_func)(void *, void *));
+int first_larger_second_char(void *first, void *second);
+void *find_generic_min_n_dinen(void *array, int array_sizes[], int n, size_t type_size, int (*is_larger_func)(void *, void *));
 
 /**
  * @brief finds the minimum of a 1d int array.
@@ -89,6 +93,41 @@ int find_min_n_dimention(int array_n[], int array_sizes[], int n)
     return min;
 }
 
+void *find_generic_min(void *array, int len, size_t type_size, int (*is_larger_func)(void *, void *))
+{
+    void *min = array;
+    char *next_elem = (char *)array;
+    int result = 0; // result can be TRUE - the first element is larger or FALSE otherwise.
+    for (int i = 0; i < len; ++i)
+    {
+        next_elem = (char *)array + i * type_size;
+        result = (*is_larger_func)(min, (void *)next_elem);
+        if (result == TRUE)
+        {
+            min = (void *)next_elem;
+        }
+    }
+    return min;
+}
+
+int first_larger_second_char(void *first, void *second)
+{
+    char char_first = *(char *)first;
+    char char_second = *(char *)second;
+    if (toupper(char_first) > toupper(char_second))
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void *find_generic_min_n_dinen(void *array, int array_sizes[], int n, size_t type_size, int (*is_larger_func)(void *, void *))
+{
+    int size = find_n_dimen_size(array_sizes, n);
+    void *min = find_generic_min(array, size, type_size, is_larger_func);
+    return min;
+}
+
 int main(void)
 {
     int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -111,5 +150,14 @@ int main(void)
     printf("the minimum of e[] is %d, maximum is %d \n", find_min_n_dimention(e, e_sizes, 3), find_max_n_dimention(e, e_sizes, 3));
     printf("size of d = %d, size of d[0] is %d \n", LEN(d), LEN(d[0]));
     printf("size of e = %d, size of e[0] is %d, size of e[0][0] %d \n", LEN(e), LEN(e[0]), LEN(e[0][0]));
+
+    char chars[] = {'H', 'M', 'z', 'a'};
+    char chars2[][5] = {{'H', 'L', "l", 'o', 'Z'}, {'a', 'Z', 'z', 'A', '['}};
+    int char_sizes[] = {LEN(chars2), LEN(chars2[0])};
+    int dimen = LEN(char_sizes);
+    int (*char_compare_func)(void *, void *) = first_larger_second_char;
+    void *void_min = find_generic_min_n_dinen(chars2, char_sizes, dimen, sizeof(char), char_compare_func);
+    char *char_min = (char *)void_min;
+    printf("The minimum of chars2[][] is %c", *char_min);
     return 0;
 }
