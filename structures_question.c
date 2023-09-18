@@ -3,6 +3,20 @@
 #define MAX_STRING 256
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
 
+void add(ComplexNumber *self, ComplexNumber *n_2);
+
+typedef struct ComplexNumber
+{
+    float real;
+    float imaginary;
+} ComplexNumber;
+
+void add(ComplexNumber *self, ComplexNumber *n_2)
+{
+    self->imaginary += n_2->imaginary;
+    self->real += n_2->real;
+}
+
 typedef struct
 {
     char name[MAX_STRING];
