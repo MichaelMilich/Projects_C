@@ -1,3 +1,10 @@
 *.json
 *.exe
 *.out
+
+# Ignore all files without an extension
+.*
+
+# Exceptions: if you want to allow specific files, you can negate them
+!README
+!LICENSE
