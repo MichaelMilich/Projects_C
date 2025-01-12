@@ -1,6 +1,4 @@
 *.json
 *.exe
 *.out
-.*
-!README
-!LICENSE
+bin/*
