@@ -35,7 +35,9 @@ int main(void)
         {5, 6},
         {7, 8}};
     int t_mat1[2][4];
+    print_matrix(4, 2, mat1);
     transpose_matrix(4, 2, mat1, t_mat1);
+    printf("\n");
     print_matrix(2, 4, t_mat1);
     return 0;
 }
