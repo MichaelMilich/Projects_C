@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         printf("The input is zero.\n");
         return 0;
     }
-    char *endptr = 1;
+    char *endptr;
     float fnum = strtof(argv[1], &endptr);
     /*Print the value pointed to by endptr*/
     printf("Value:  %d\n", *endptr);
@@ -33,15 +33,15 @@ int main(int argc, char *argv[])
 
     if (*endptr != 0)
     {
-        printf("invalid input, '%s' is not integer or float", argv[1]);
+        printf("invalid input, '%s' is not integer or float \n", argv[1]);
         return 1;
     }
     int inum = (int)fnum;
     if (fnum == (float)inum)
     {
-        printf("The input is integer");
+        printf("The input is integer \n");
         int res;
-        for (int i = 0; i <= 10; ++i)
+        for (int i = 0; i <= 10; i++)
         {
             res = inum * i;
             printf("multiplication of %d by %d = %d \n", inum, i, res);
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     {
         printf("The input is float");
         float res;
-        for (int i = 0; i <= 10; ++i)
+        for (int i = 0; i <= 10; i++)
         {
             res = fnum * i;
             printf("multiplication of %f by %d = %f \n", fnum, i, res);
