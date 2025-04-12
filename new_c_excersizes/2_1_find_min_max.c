@@ -5,6 +5,7 @@ Write a program to find the maximum and minimum elements in a 1D array.
 #include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
 
 int find_max(int arr[], int arr_len) {
@@ -124,9 +125,22 @@ bool run_tests() {
     return true;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     if (!run_tests()) {
         return 1;
     }
-    printf("all tests passed!\n");
+    // Check input arguments
+    if (argc != 3) {
+        printf("Usage: %s <String1> <String2>\n", argv[0]);
+        printf("<String1> is the function: find_min / find_max \n");
+        printf("<String2> is the array represented as string (for example "
+               "'[1,5,8,2]')");
+        return 1;
+    }
+    if (strcmp(argv[1], "find_min") != 0 && !strcmp(argv[1], "find_max") != 0) {
+        printf("input for <String1> can only be find_min or find_max, provided "
+               "input was %s",
+               argv[1]);
+        return 1;
+    }
 }
