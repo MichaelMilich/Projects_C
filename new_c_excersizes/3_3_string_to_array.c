@@ -50,6 +50,20 @@ bool check_format(const char* input_string) {
     return bracket_balance == 0;
 }
 
+bool convert_to_int(const char* token, int* result) {
+    char* endptr;
+    *result = strtol(token, &endptr, 10);
+    return *endptr == '\0';
+}
+
+bool convert_to_float(const char* token, float* result) {
+    char* endptr;
+    *result = strtod(token, &endptr);
+    return *endptr == '\0';
+}
+
+
+
 int main(int argc, char *argv[]) {
     // Check input arguments
     if (argc != 2) {
