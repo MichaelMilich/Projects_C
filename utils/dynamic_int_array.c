@@ -128,3 +128,10 @@ void print_array(DynamicIntArray *arr) {
     }
     printf(" %d ]\n", arr->data[arr->size - 1]);
 }
+
+int get_value_at_index(DynamicIntArray* arr, size_t index, int* out_ptr) {
+    if (arr == NULL || out_ptr == NULL) return -1;
+    if (index >= arr->size) return -1;
+    *out_ptr = arr->data[index];
+    return 0;
+}

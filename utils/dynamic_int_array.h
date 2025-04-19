@@ -1,11 +1,13 @@
-// dynamic_int_array.h
 #ifndef DYNAMIC_INT_ARRAY_H
 #define DYNAMIC_INT_ARRAY_H
 
 #include <stdlib.h>
 #include <stdbool.h>
 
-// Struct definition
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     size_t size;
     size_t capacity;
@@ -22,5 +24,10 @@ bool pop(DynamicIntArray* arr, int* out_ptr);
 bool add_array(DynamicIntArray* parent_arr, DynamicIntArray* child_array_to_add);
 void print_array(DynamicIntArray* arr);
 bool free_array_memory(DynamicIntArray* arr);
+int get_value_at_index(DynamicIntArray* arr, size_t index, int* out_ptr);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // DYNAMIC_INT_ARRAY_H
