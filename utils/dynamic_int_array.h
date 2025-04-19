@@ -9,15 +9,16 @@
 typedef struct {
     size_t size;
     size_t capacity;
-    bool is_dynamic_memory;
     int* data;
+    bool is_dynamic_memory;
 } DynamicIntArray;
 
 DynamicIntArray* new_empty_array();
 bool init_array(DynamicIntArray* arr);
-bool append_value(DynamicIntArray* arr, int value);
+int append_value(DynamicIntArray* arr, int value);
 int find_value_index(DynamicIntArray* arr, int value);
-bool remove_value_at_index(DynamicIntArray* arr, int value);
+bool remove_value_at_index(DynamicIntArray *arr, int index, int *out_ptr);
+bool pop(DynamicIntArray* arr, int* out_ptr);
 bool add_array(DynamicIntArray* parent_arr, DynamicIntArray* child_array_to_add);
 void print_array(DynamicIntArray* arr);
 bool free_array_memory(DynamicIntArray* arr);
