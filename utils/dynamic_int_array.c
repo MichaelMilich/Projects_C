@@ -126,7 +126,8 @@ void print_array(DynamicIntArray *arr) {
     for (size_t i = 0; i < arr->size - 1; i++) {
         printf(" %d,", arr->data[i]);
     }
-    printf(" %d ]\n", arr->data[arr->size - 1]);
+    printf(" %d ] ", arr->data[arr->size - 1]);
+    printf("(size = %ld , capacity = %ld , is_dynamic_allocated = %s)\n", arr->size,arr->capacity,arr->is_dynamic_memory ? "true": "false");
 }
 
 int get_value_at_index(DynamicIntArray* arr, size_t index, int* out_ptr) {
