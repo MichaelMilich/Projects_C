@@ -115,6 +115,9 @@ class TestStringArrayLib(unittest.TestCase):
     def test_string_with_whitespace(self):
         self._test_format_lib(b" [a, b, c] ",True)
 
+    def test_empty_array(self):
+        self._test_format_lib(b" [ ] ",True)
+
     def test_string_without_whitespace(self):
         self._test_format_lib(b"[a, b, c]",True)
 
@@ -195,6 +198,9 @@ class TestStringArrayExec(unittest.TestCase):
     def test_converted_list(self):
         self._test_exec(b"   [1  ,2   ,3,7,8]","✓","[ 1, 2, 3, 7, 8 ]")
         self._test_exec(b"   [1  ,2   ,3,7,8]","✓","size = 5")
+
+    def test_convert_empty_list(self):
+        self._test_exec(b"   []","✓","[ ]")
 
 if __name__ == '__main__':
     unittest.main()
