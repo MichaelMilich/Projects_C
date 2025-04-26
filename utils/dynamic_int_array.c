@@ -11,6 +11,7 @@ DynamicIntArray *new_empty_array() {
     arr->size = 0;
     arr->capacity = INITIAL_CAPACITY;
     arr->is_dynamic_memory = true;
+    arr->is_sorted = false;
     arr->data = malloc(arr->capacity * sizeof(int));
     if (arr->data == NULL) {
         free(arr);
@@ -25,6 +26,7 @@ bool init_array(DynamicIntArray *arr) {
     arr->capacity = INITIAL_CAPACITY;
     arr->data = malloc(arr->capacity * sizeof(int));
     arr->is_dynamic_memory = false;
+    arr->is_sorted = false;
 
     return arr->data != NULL;
 }
@@ -127,12 +129,42 @@ void print_array(DynamicIntArray *arr) {
         printf(" %d,", arr->data[i]);
     }
     printf(" %d ] ", arr->data[arr->size - 1]);
-    printf("(size = %ld , capacity = %ld , is_dynamic_allocated = %s)\n", arr->size,arr->capacity,arr->is_dynamic_memory ? "true": "false");
+    printf("(size = %ld , capacity = %ld , is_dynamic_allocated = %s)\n",
+           arr->size, arr->capacity, arr->is_dynamic_memory ? "true" : "false");
 }
 
-int get_value_at_index(DynamicIntArray* arr, size_t index, int* out_ptr) {
-    if (arr == NULL || out_ptr == NULL) return -1;
-    if (index >= arr->size) return -1;
+int get_value_at_index(DynamicIntArray *arr, size_t index, int *out_ptr) {
+    if (arr == NULL || out_ptr == NULL)
+        return -1;
+    if (index >= arr->size)
+        return -1;
     *out_ptr = arr->data[index];
     return 0;
+}
+
+void naive_sort(DynamicIntArray *arr) {
+    if (arr == NULL)
+        return;
+    for (size_t i = 0; i < arr->size; i++) {
+        int min = arr->data[i];
+        int min_index = i;
+        for (size_t j = i + 1; j < arr->size; j++) {
+            if (min < arr->data[j]) {
+                min_index = j;
+                min = arr->data[j];
+            }
+        }
+        int temp = arr->data[i];
+        arr->data[i] = min;
+        arr->data[min_index] = temp;
+    }
+    arr->is_sorted = true;
+}
+
+void merge_sort(DynamicIntArray *arr) {
+    private_merge_sort(arr->data, 0, arr->size);
+}
+
+int private_merge_sort(int *data, int start, int end) {
+    // merge sort needs to run with extra array memory - just so you know.
 }

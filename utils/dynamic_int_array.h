@@ -13,6 +13,7 @@ typedef struct {
     size_t capacity;
     int* data;
     bool is_dynamic_memory;
+    bool is_sorted;
 } DynamicIntArray;
 
 DynamicIntArray* new_empty_array();
