@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,6 +27,10 @@ bool add_array(DynamicIntArray* parent_arr, DynamicIntArray* child_array_to_add)
 void print_array(DynamicIntArray* arr);
 bool free_array_memory(DynamicIntArray* arr);
 int get_value_at_index(DynamicIntArray* arr, size_t index, int* out_ptr);
+void merge_sort(DynamicIntArray *arr);
+void naive_sort(DynamicIntArray *arr);
+void quick_sort(DynamicIntArray *arr);
+
 
 #ifdef __cplusplus
 }

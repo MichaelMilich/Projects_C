@@ -1,7 +1,17 @@
 #include "dynamic_int_array.h"
+#include <assert.h>
 #include <stdio.h> // for printf in print_array
 
 #define INITIAL_CAPACITY 4
+
+// --- Helper Prototypes ---
+static void private_merge_sort(int *data, int start, int end);
+static void merge(int *data, int start, int middle, int end);
+static void private_quick_sort(int *data, int start,int end);
+static int lomuto_partition(int *arr, int start,int end);
+static void swap(int *ptr_1, int *ptr_2);
+
+
 
 DynamicIntArray *new_empty_array() {
     DynamicIntArray *arr = malloc(sizeof(DynamicIntArray));
@@ -143,28 +153,110 @@ int get_value_at_index(DynamicIntArray *arr, size_t index, int *out_ptr) {
 }
 
 void naive_sort(DynamicIntArray *arr) {
-    if (arr == NULL)
-        return;
+    if (arr == NULL || arr->data == NULL) return;
+
     for (size_t i = 0; i < arr->size; i++) {
-        int min = arr->data[i];
-        int min_index = i;
+        size_t min_index = i;
         for (size_t j = i + 1; j < arr->size; j++) {
-            if (min < arr->data[j]) {
+            if (arr->data[j] < arr->data[min_index]) {
                 min_index = j;
-                min = arr->data[j];
             }
         }
-        int temp = arr->data[i];
-        arr->data[i] = min;
-        arr->data[min_index] = temp;
+        if (min_index != i) {
+            int temp = arr->data[i];
+            arr->data[i] = arr->data[min_index];
+            arr->data[min_index] = temp;
+        }
     }
+
     arr->is_sorted = true;
 }
 
 void merge_sort(DynamicIntArray *arr) {
-    private_merge_sort(arr->data, 0, arr->size);
+    if (arr == NULL || arr->data == NULL) {
+        fprintf(stderr, "[ERROR] Cannot sort a NULL array.\n");
+        return;
+    }
+
+    private_merge_sort(arr->data, 0, arr->size - 1);
+    arr->is_sorted = true;
 }
 
-int private_merge_sort(int *data, int start, int end) {
-    // merge sort needs to run with extra array memory - just so you know.
+// --- Recursive Merge Sort Helper ---
+static void private_merge_sort(int *data, int start, int end) {
+    if (start >= end) return;
+
+    int middle = start + (end - start) / 2;
+    private_merge_sort(data, start, middle);
+    private_merge_sort(data, middle + 1, end);
+    merge(data, start, middle, end);
+}
+
+// --- Merge Two Sorted Subarrays ---
+static void merge(int *data, int start, int middle, int end) {
+    int size_left = middle - start + 1;
+    int size_right = end - middle;
+
+    int *left = malloc(sizeof(int) * size_left);
+    int *right = malloc(sizeof(int) * size_right);
+
+    if (left == NULL || right == NULL) {
+        fprintf(stderr, "[ERROR] Memory allocation failed in merge.\n");
+        free(left);
+        free(right);
+        return;
+    }
+
+    memcpy(left, &data[start], sizeof(int) * size_left);
+    memcpy(right, &data[middle + 1], sizeof(int) * size_right);
+
+    int i = 0, j = 0, k = start;
+    while (i < size_left && j < size_right) {
+        if (left[i] <= right[j]) {
+            data[k++] = left[i++];
+        } else {
+            data[k++] = right[j++];
+        }
+    }
+    while (i < size_left) data[k++] = left[i++];
+    while (j < size_right) data[k++] = right[j++];
+
+    free(left);
+    free(right);
+}
+
+void quick_sort(DynamicIntArray *arr){
+    if (arr == NULL || arr->data == NULL) {
+        fprintf(stderr, "[ERROR] Cannot sort a NULL array.\n");
+        return;
+    }
+    private_quick_sort(arr->data,0,arr->size-1);
+    arr->is_sorted=true;
+}
+
+static void private_quick_sort(int *data, int start,int end){
+    if (start>=end) return;
+    int partition_index = lomuto_partition(data,start,end);
+    private_quick_sort(data,start,partition_index-1);
+    private_quick_sort(data,partition_index+1,end);
+
+}
+
+static int lomuto_partition(int *data, int start,int end) {
+    int pivot = data[end];
+    int i = start;
+    for (int j = start; j < end; j++) {
+        if (data[j] < pivot) {
+            swap(&data[i], &data[j]);
+            i++;
+        }
+    }
+    swap(&data[i], &data[end]);
+    return i;
+}
+
+static void swap(int *ptr_1, int *ptr_2) {
+    int temp = *ptr_1;
+    *ptr_1 = *ptr_2;
+    *ptr_2 = temp;
 }
