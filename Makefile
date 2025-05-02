@@ -1,21 +1,34 @@
 # Default compiler and flags
 CC = gcc
-CFLAGS = -Wall -fPIC
+CFLAGS = -Wall -fPIC -Iutils
 LDFLAGS = -shared
 
-# Default targets (empty to avoid full project-wide build)
-all:
+# Utility object files
+UTILS_OBJS = utils/dynamic_int_array.o utils/string_to_array.o
+
+# Default targets
+all: $(UTILS_OBJS)
+
+# Compile utility files
+utils/%.o: utils/%.c utils/%.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "[✓] Compiled utility: $@"
 
 # Pattern rule to build a shared library
-test/c_lib/%.so: new_c_excersizes/%.c
+test/c_lib/%.so: new_c_excersizes/%.c $(UTILS_OBJS)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $< $(UTILS_OBJS) -o $@
 	@echo "[✓] Built shared library: $@"
 
-# Pattern rule to build a CLI binary (optional)
-bin/%.o: new_c_excersizes/%.c
+# Pattern rule to build a CLI binary
+bin/%.o: new_c_excersizes/%.c $(UTILS_OBJS)
 	@mkdir -p $(dir $@)
-	$(CC) $< -o $@
+	$(CC) $(CFLAGS) $< $(UTILS_OBJS) -o $@
 	@echo "[✓] Built executable: $@"
 
-.PHONY: all
+# Clean rule
+clean:
+	rm -f $(UTILS_OBJS) test/c_lib/*.so bin/*.o
+
+.PHONY: all clean

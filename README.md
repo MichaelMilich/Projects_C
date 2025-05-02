@@ -1,8 +1,17 @@
 # 🧪 C Exercises Test Framework
 
 **As you can probably tell most of this README was written with chatGPT help.**
-
 This project is designed to practice and test C programming exercises using Python's unittest framework and ctypes to interface with compiled C code.
+
+***Goal***
+To learn the C programing language by doing some excersizes. 
+Some of the excersizes become larger as I work on them.
+
+***method***
+1. Ask ChatGPT to create excersizes of implementing basic things in c for a developer that knows high-level languages like python.
+2. Start doing each excersize with it's testing code (use whatever language you want to test). DO NOT use cursor while learning the new language. Google your questions and tries. Use AI only for debugging & code reviews.
+3. Try to make an executable for each excersize.
+
 
 
 ## 📁 Project Structure
@@ -16,12 +25,16 @@ This project is designed to practice and test C programming exercises using Pyth
     │   ├── test_3_1_string_reversal.py  # Python test file
     │   └── c_lib/                  # Compiled shared libraries (.so)
     │       └── 3_1_string_reversal.so
+    ├── utils/                      # utils c code for shared libraries & shared excersizes.
     ├── Makefile                    # Build logic
     ├── run_exercise.sh            # Runs a specific test end-to-end
     ├── run_all_exercises.sh       # Builds & runs all tests
     ├── list_exercises.sh          # Lists all available C exercises
     └── README.md                  # You're here!
 ```
+***Note***
+Somewhere after string excersizes I descided to add utils directory. to not re-write code.
+
 
 ## ⚙️ Prerequisites
 

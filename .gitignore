@@ -3,3 +3,4 @@
 *.out
 bin/*
 test/c_lib/*
+utils/*.o
