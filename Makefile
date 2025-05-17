@@ -4,7 +4,7 @@ CFLAGS = -Wall -fPIC -Iutils
 LDFLAGS = -shared
 
 # Utility object files
-UTILS_OBJS = utils/dynamic_int_array.o utils/string_to_array.o
+UTILS_OBJS = utils/dynamic_int_array.o utils/string_to_array.o utils/calc_lexer.o utils/calc_parser.o
 
 # Default targets
 all: $(UTILS_OBJS)
@@ -22,13 +22,13 @@ test/c_lib/%.so: new_c_excersizes/%.c $(UTILS_OBJS)
 	@echo "[✓] Built shared library: $@"
 
 # Pattern rule to build a CLI binary
-bin/%.o: new_c_excersizes/%.c $(UTILS_OBJS)
+bin/%: new_c_excersizes/%.c $(UTILS_OBJS)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $< $(UTILS_OBJS) -o $@
+	$(CC) $(CFLAGS) $< $(UTILS_OBJS) -o $@ -lm
 	@echo "[✓] Built executable: $@"
 
 # Clean rule
 clean:
-	rm -f $(UTILS_OBJS) test/c_lib/*.so bin/*.o
+	rm -f $(UTILS_OBJS) test/c_lib/*.so bin/*
 
 .PHONY: all clean

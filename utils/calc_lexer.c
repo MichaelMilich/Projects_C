@@ -11,6 +11,7 @@ static void skip_whitespace(Lexer *lexer);
 static void advance(Lexer *lexer);
 static void get_number(Lexer *lexer, Token *token);
 static bool convert_to_float(const char *string, float *result, size_t start_index, size_t end_index);
+static bool is_unary_minus(Lexer *lexer);
 
 // --- Lexer Initialization ---
 void lexer_init(Lexer *lexer, const char *input) {
@@ -22,6 +23,7 @@ void lexer_init(Lexer *lexer, const char *input) {
     lexer->current_char = lexer->input[lexer->pos];
     lexer->current_token.type = TOKEN_INVALID;
     lexer->current_token.value = 0.0f;
+    lexer_get_next_token(lexer);
 }
 
 // --- Lexer Core ---
@@ -49,7 +51,7 @@ Token *lexer_get_next_token(Lexer *lexer) {
             lexer->current_token.type = TOKEN_PLUS;
             break;
         case '-':
-            lexer->current_token.type = TOKEN_MINUS;
+            lexer->current_token.type = is_unary_minus(lexer) ? TOKEN_UNARY_MINUS : TOKEN_MINUS;
             break;
         case '*':
             lexer->current_token.type = TOKEN_STAR;
@@ -124,4 +126,25 @@ static bool convert_to_float(const char *string, float *result, size_t start_ind
     bool success = (*endptr == '\0');  // Fully consumed
     free(buffer);
     return success;
+}
+
+static bool is_unary_minus(Lexer *lexer) {
+    // A minus is unary if:
+    // 1. It's at the start of the expression
+    // 2. It follows an opening parenthesis
+    // 3. It follows an operator
+    if (lexer->pos == 1)  // At start of expression
+        return true;
+    
+    // Look at the previous non-whitespace character
+    int prev_pos = lexer->pos - 2;  // -2 because we already advanced past the minus
+    while (prev_pos >= 0 && isspace(lexer->input[prev_pos]))
+        prev_pos--;
+    
+    if (prev_pos < 0)  // Only whitespace before this
+        return true;
+        
+    char prev_char = lexer->input[prev_pos];
+    return prev_char == '(' || prev_char == '+' || prev_char == '-' || 
+           prev_char == '*' || prev_char == '/' || prev_char == '^';
 }
