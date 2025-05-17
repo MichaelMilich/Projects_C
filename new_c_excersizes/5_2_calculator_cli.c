@@ -13,7 +13,12 @@ int main(int argc, char *argv[]) {
 
     Lexer lexer;
     lexer_init(&lexer, argv[1]);
-    float result = parse_expression(&lexer);
+    float result;
+    bool did_calculate = parse_expression(&lexer,&result);
+    if(!did_calculate){
+        printf("[ERROR] input was in the wrong format. stoping calculation \n");
+        return 1;
+    }
     printf("Result: %f\n", result);
     return 0;
 }
