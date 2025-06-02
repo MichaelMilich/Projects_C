@@ -4,7 +4,7 @@ CFLAGS = -Wall -fPIC -Iutils
 LDFLAGS = -shared
 
 # Utility object files
-UTILS_OBJS = utils/dynamic_int_array.o utils/string_to_array.o utils/calc_lexer.o utils/calc_parser.o
+UTILS_OBJS = utils/dynamic_int_array.o utils/string_to_array.o utils/calc_lexer.o utils/calc_parser.o utils/file_utils.o utils/student.o
 
 # Default targets
 all: $(UTILS_OBJS)

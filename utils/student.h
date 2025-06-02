@@ -51,13 +51,13 @@ void print_student(Student *student);
  * @param students: The array of Student structs to print
  * @param count: The number of Student structs in the array
  */
-void print_students(Student *students, size_t count);
+void print_students(Student **students, size_t count);
 /**
  * Frees the memory allocated for an array of Student structs
  * @param students: The array of Student structs to free
  * @param count: The number of Student structs in the array
  */
-void free_students(Student *students, size_t count);
+void free_students(Student **students, size_t count);
 
 
 #endif

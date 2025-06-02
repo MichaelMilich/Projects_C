@@ -30,7 +30,7 @@ bool sort_students(const char *filepath, const char *sort_by);
  * @param filepath: The path to the CSV file
  * @return: An array of Student pointers
  */
-Student** load_students(const char *filepath);
+Student** load_students(const char *filepath, size_t *out_count);
 
 int main(int argc, char *argv[]) {
     char *func_name = NULL;
@@ -63,6 +63,13 @@ int main(int argc, char *argv[]) {
 void print_usage(const char *program_name) {
     printf("Usage: %s --func <function_name> --filepath <file_path> [--param <parameters>]\n", program_name);
     printf("Example: %s --func read --filepath data.txt --param \"param1,param2\"\n", program_name);
+    printf("Functions:\n");
+    printf("  load_students: Load students from a CSV file\n");
+    printf("  create_student_database: Create a new student database\n");
+    printf("  add_student: Add a student to the database\n");
+    // printf("  remove_student: Remove a student from the database\n");
+    // printf("  update_student: Update a student in the database\n");
+    // printf("  search_student: Search for a student in the database\n");
 }
 
 void process_function(const char *func_name, const char *filepath, const char *param) {
@@ -148,7 +155,7 @@ bool add_student(const char *filepath, Student *student) {
     if (file == NULL) {
         return false;
     }
-    fprintf(file, "%d,%s,%s,%s,%d,%d\n", student->roll_number, student->name, student->department, student->course, student->year_of_joining, student->average_marks);
+    fprintf(file, "%d,%s,%s,%s,%d,%d\n", student->roll_number, student->name, student->department, student->course, student->year_of_joining, student->avg_marks);
     fclose(file);
     printf("Student added successfully\n");
     return true;

@@ -106,23 +106,23 @@ void print_student(Student *student) {
     );
 }
 
-void print_students(Student *students, size_t count) {
+void print_students(Student **students, size_t count) {
     if (students == NULL) {
         return;
     }
 
     for (size_t i = 0; i < count; i++) {
-        print_student(&students[i]);
+        print_student(students[i]);
     }
 }
 
-void free_students(Student *students, size_t count) {
+void free_students(Student **students, size_t count) {
     if (students == NULL) {
         return;
     }
 
     for (size_t i = 0; i < count; i++) {
-        free_student(&students[i]);
+        free_student(students[i]);
     }
     free(students);
 }
