@@ -39,26 +39,29 @@ Student* create_student_from_csv_line(const char *line, const char *delimiter, c
 
     char* line_copy = strdup(line);
     char* header_copy = strdup(header);
-    char* line_token = strtok(line_copy, delimiter);
-    char* header_token = strtok(header_copy, delimiter);
+    
+    char *line_saveptr = NULL;
+    char *header_saveptr = NULL;
+    char* line_token = strtok_r(line_copy, delimiter, &line_saveptr);
+    char* header_token = strtok_r(header_copy, delimiter, &header_saveptr);
 
     while (line_token != NULL && header_token != NULL) {
-        if (strcmp(header_token, "name") == 0) {
+        if (strcmp(header_token, "Name") == 0) {
             student->name = strdup(line_token);
-        } else if (strcmp(header_token, "department") == 0) {
+        } else if (strcmp(header_token, "Department") == 0) {
             student->department = strdup(line_token);
-        } else if (strcmp(header_token, "course") == 0) {
+        } else if (strcmp(header_token, "Course") == 0) {
             student->course = strdup(line_token);
-        } else if (strcmp(header_token, "year_of_joining") == 0) {
+        } else if (strcmp(header_token, "Year of Joining") == 0) {
             student->year_of_joining = atoi(line_token);
-        } else if (strcmp(header_token, "avg_marks") == 0) {
+        } else if (strcmp(header_token, "Average Marks") == 0) {
             student->avg_marks = atoi(line_token);
-        } else if (strcmp(header_token, "roll_number") == 0) {
+        } else if (strcmp(header_token, "Roll Number") == 0) {
             student->roll_number = atoi(line_token);
         }
 
-        line_token = strtok(NULL, delimiter);
-        header_token = strtok(NULL, delimiter);
+        line_token = strtok_r(NULL, delimiter, &line_saveptr);
+        header_token = strtok_r(NULL, delimiter, &header_saveptr);
     }
 
     free(line_copy);
@@ -73,16 +76,16 @@ Student* create_student_from_input_line(const char *line) {
     }
 
     char name[256], department[256], course[256];
-    int year, marks, roll;
+    int year, marks;
 
-    if (sscanf(line, "Student(%[^,], %[^,], %[^,], %d, %d, %d)",
-               name, department, course, &year, &marks, &roll) == 6) {
+    if (sscanf(line, "Student(%[^,], %[^,], %[^,], %d, %d)",
+               name, department, course, &year, &marks) == 5) {
         student->name = strdup(name);
         student->department = strdup(department);
         student->course = strdup(course);
         student->year_of_joining = year;
         student->avg_marks = marks;
-        student->roll_number = roll;
+        student->roll_number = -1;
         return student;
     }
 
