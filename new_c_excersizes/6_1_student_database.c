@@ -116,12 +116,14 @@ void process_function(const char *func_name, const char *filepath, const char *s
 Student** load_students(const char *filepath, size_t *out_count) {
     FILE* file = fopen(filepath, "r");
     if (file == NULL) {
+        printf("Error: Failed to open file\n");
         return NULL;
     }
 
     // Read header
     char* header = read_full_line(file);
     if (header == NULL) {
+        printf("Error: Failed to read header\n");
         fclose(file);
         return NULL;
     }
@@ -129,7 +131,7 @@ Student** load_students(const char *filepath, size_t *out_count) {
     // Remove newline if present
     header[strcspn(header, "\n")] = 0;
 
-    Student** students = NULL;
+    Student** students = malloc(sizeof(Student*));
     size_t count = 0;
     char* line;
 
@@ -170,12 +172,14 @@ bool create_student_database(const char *filepath) {
 bool add_student(const char *filepath, Student *student) {
     FILE* file = open_append_or_create(filepath);
     if (file == NULL) {
+        printf("Error: Failed to open file\n");
         return false;
     }
     if (student->roll_number == -1) {
         size_t count;
         Student** students = load_students(filepath, &count);
         if (students == NULL) {
+            printf("Error: Failed to load students\n");
             return false;
         }
         student->roll_number = count + 1;
